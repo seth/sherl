@@ -55,3 +55,5 @@ implementation detail.
 1. Edit sherl/lib/sherl/src/sherl_db.erl
 
 ** Getting to some code
+We start with an outline for the module, defining stub methods for
+put_url/1 and get_url/1.
