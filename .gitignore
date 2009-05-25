@@ -1,0 +1,3 @@
+*.beam
+.depend_erlang.mf
+Emakefile
