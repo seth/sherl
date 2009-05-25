@@ -2,6 +2,9 @@
 
 -export([put_url/1, get_url/1]).
 
+-include("../include/url.hrl").
+-include("counter.hrl").
+
 %% @spec put_url(string()) -> integer()
 %% @doc Store a URL in the database and return a unique integer that
 %% will be permanently associated with the URL.  If the URL is already
