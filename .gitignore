@@ -1,3 +1,5 @@
 *.beam
 .depend_erlang.mf
 Emakefile
+ct-results
+/variables-ct@orange

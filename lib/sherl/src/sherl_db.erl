@@ -1,16 +1,16 @@
 -module(sherl_db).
 
--export([put_url/1, get_url/1]).
+-export([get_code/1, get_url/1]).
 
 -include("../include/url.hrl").
 -include("counter.hrl").
 
-%% @spec put_url(string()) -> integer()
+%% @spec get_code(string()) -> integer()
 %% @doc Store a URL in the database and return a unique integer that
 %% will be permanently associated with the URL.  If the URL is already
 %% in the system, the already assigned unique integer is returned.
-put_url(Url) ->
-    ok.
+get_code(Url) ->
+    #url{url = Url, code = 1, created = 0, last_access=0}.
 
 %% @spec get_url(integer()) -> recUrl() | undefined
 %% @type recUrl() = #url
