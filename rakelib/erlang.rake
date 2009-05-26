@@ -147,9 +147,10 @@ namespace :erlang do
   ERL_SOURCES = FileList['lib/*/src/*.erl']
   ERL_BEAM = ERL_SOURCES.pathmap("%{src,ebin}X.beam")
 
-  ERL_TESTS = FileList['lib/*/test/*.erl']
+  ERL_TESTS = FileList['lib/*/test/*.erl'].exclude(/_SUITE\.erl$/)
   ERL_BEAM_TESTS = ERL_TESTS.pathmap("%X.beam")
-  ERL_UNIT_TESTS = FileList['lib/*/test/*.erl']
+  # how is this different from ERL_TESTS?
+  ERL_UNIT_TESTS = FileList['lib/*/test/*.erl'].exclude(/_SUITE\.erl$/)
 
   ERL_ASN_SOURCES = FileList['lib/*/src/*.asn']
 
@@ -173,6 +174,9 @@ namespace :erlang do
   directory "releases"
   directory "applications"
   CLEAN.include "release_local"
+
+  directory "ct-results"
+  CLEAN.include "ct-results"
 
   ERL_DIRECTORIES.each do |d|
     directory d
@@ -380,6 +384,13 @@ namespace :erlang do
   desc "Run dialyzer"
   task :dialyzer do
     sh "#{ERL_TOP}/bin/dialyzer --src -I lib -I lib/sample_rake/include -c #{ERL_DIRECTORIES.pathmap("%{ebin,src}X")}"
+  end
+
+  desc "Run common-test tests"
+  task :ct => :compile do
+    FileUtils.mkdir_p("ct-results")
+    abs_ebin = ERL_DIRECTORIES.map {|d| File.expand_path(d)}.join(" ")
+    sh "run_test -pa #{abs_ebin} -dir lib/* -logdir ct-results"
   end
 
   desc "Compile all projects"
