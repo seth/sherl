@@ -41,17 +41,22 @@ end_per_suite(_Config) ->
 %% Description: Returns a list of all test cases in this test suite
 %%--------------------------------------------------------------------
 all() ->
-    [digit_to_char_test].
+    [digit_to_char, char_to_digit].
 
 %%-------------------------------------------------------------------------
 %% Test cases starts here.
 %%-------------------------------------------------------------------------
 
-digit_to_char_test() ->
+digit_to_char() ->
     [{userdata,[{doc,"digit to 0-9A-Za-z"}]}].
 
-digit_to_char_test(_Config) ->
+digit_to_char(_Config) ->
     [ Char = base62:digit_to_char(Digit) ||
+        {Digit, Char} <- lists:zip(all_digits(), all_chars()) ],
+    ok.
+
+char_to_digit(_Config) ->
+    [ Digit = base62:char_to_digit(Char) ||
         {Digit, Char} <- lists:zip(all_digits(), all_chars()) ],
     ok.
 
