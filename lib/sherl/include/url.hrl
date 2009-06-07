@@ -1,1 +1,1 @@
--record(url, {code, url, created, count = 0, last_access}).
+-record(url, {code, url, created}).

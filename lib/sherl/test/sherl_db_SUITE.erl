@@ -22,6 +22,7 @@ suite() -> [{timetrap,{seconds,10}}].
 %% variable, but should NOT alter/remove any existing entries.
 %%--------------------------------------------------------------------
 init_per_suite(Config) ->
+    sherl_db:start([]),
     Config.
 
 %%--------------------------------------------------------------------
@@ -31,6 +32,7 @@ init_per_suite(Config) ->
 %% Description: Cleanup after the whole suite
 %%--------------------------------------------------------------------
 end_per_suite(_Config) ->
+    sherl_db:stop(),
     ok.
 
 %%--------------------------------------------------------------------
@@ -53,17 +55,24 @@ roundtrip1() ->
 roundtrip1(_Config) ->
     %% assumes a clean database
 
+    undefined = sherl_db:get_url("url1"),
+
     Url1 = "url1",
     Ans1 = sherl_db:get_code(Url1),
-    true = is_record(Ans1, url),
     Url1 = Ans1#url.url,
     1 = Ans1#url.code,
 
+    Ans1 = sherl_db:get_url(Ans1#url.code),
+
     Url2 = "url2",
     Ans2 = sherl_db:get_code(Url2),
-    true = is_record(Ans2, url),
     Url2 = Ans2#url.url,
     2 = Ans2#url.code,
+
+    Ans2 = sherl_db:get_url(Ans2#url.code),
+
+    %% same URL yields same record
+    Ans2 = sherl_db:get_code(Url2),
 
     ok.
 

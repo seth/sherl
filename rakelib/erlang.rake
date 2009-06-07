@@ -388,9 +388,13 @@ namespace :erlang do
 
   desc "Run common-test tests"
   task :ct => :compile do
-    FileUtils.mkdir_p("ct-results")
+    test_dir = File.expand_path("ct-results")
+    db_dir = File.join(test_dir, "DB")
+    FileUtils.rm_rf(db_dir)
+    FileUtils.mkdir_p(db_dir)
     abs_ebin = ERL_DIRECTORIES.map {|d| File.expand_path(d)}.join(" ")
-    sh "run_test -pa #{abs_ebin} -dir lib/* -logdir ct-results"
+    mnesia_opts = "-mnesia dir '\"#{db_dir}\"'"
+    sh "run_test -pa #{abs_ebin} #{mnesia_opts} -dir lib/* -logdir ct-results"
   end
 
   desc "Compile all projects"
