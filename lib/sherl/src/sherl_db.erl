@@ -62,10 +62,7 @@ get_url(Code) ->
     {atomic, Val} = mnesia:transaction(F),
     Val.
 
-
 %% @spec next_int() -> integer()
 %% @doc This is the integer sequence used to uniquely identify URLs
 next_int() ->
     mnesia:dirty_update_counter(counter, id, 1).
-
-

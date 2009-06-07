@@ -57,3 +57,8 @@ implementation detail.
 ** Getting to some code
 We start with an outline for the module, defining stub methods for
 put_url/1 and get_url/1.
+
+Added common test target to erl_rake and have the task create a fresh
+mnesia db for each run.
+** Coding integers, base 62
+

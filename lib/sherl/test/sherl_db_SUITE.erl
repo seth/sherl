@@ -69,12 +69,11 @@ roundtrip1(_Config) ->
     Url2 = Ans2#url.url,
     2 = Ans2#url.code,
 
+    true = element(3, Ans1#url.created) < element(3, Ans2#url.created),
+
     Ans2 = sherl_db:get_url(Ans2#url.code),
 
     %% same URL yields same record
     Ans2 = sherl_db:get_code(Url2),
 
     ok.
-
-
-
