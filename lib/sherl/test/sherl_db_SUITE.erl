@@ -43,46 +43,37 @@ end_per_suite(_Config) ->
 %% Description: Returns a list of all test cases in this test suite
 %%--------------------------------------------------------------------
 all() ->
-    [roundtrip1, concurrent1].
+    [unknown_url_is_undefined, roundtrip1, roundtrip2, concurrent_creating].
 
 %%-------------------------------------------------------------------------
 %% Test cases starts here.
 %%-------------------------------------------------------------------------
 
-roundtrip1() ->
-    [{userdata,[{doc,"create a code for a URL and retrieve it"}]}].
+unknown_url_is_undefined(_Config) ->
+    undefined = sherl_db:get_url("no-such-url-in-db"),
+    ok.
 
 roundtrip1(_Config) ->
-    %% assumes a clean database
-
-    undefined = sherl_db:get_url("url1"),
-
     Url1 = "url1",
     Ans1 = sherl_db:get_code(Url1),
     Url1 = Ans1#url.url,
     1 = Ans1#url.code,
-
     Ans1 = sherl_db:get_url(Ans1#url.code),
 
+    %% same URL yields same record
+    Ans1 = sherl_db:get_code(Url1),
+    ok.
+
+roundtrip2(_Config) ->
     Url2 = "url2",
     Ans2 = sherl_db:get_code(Url2),
     Url2 = Ans2#url.url,
     2 = Ans2#url.code,
-
-    true = element(3, Ans1#url.created) < element(3, Ans2#url.created),
-
     Ans2 = sherl_db:get_url(Ans2#url.code),
-
-    %% same URL yields same record
-    Ans2 = sherl_db:get_code(Url2),
-
     ok.
 
-concurrent1() ->
-    [{userdata,[{doc,"concurrent code creation for same URLs"}]}].
-
-concurrent1(_Config) ->
-    NumClients = 5,
+concurrent_creating(_Config) ->
+    NumClients = 50,
     Seq = lists:map(fun erlang:integer_to_list/1, lists:seq(1, 10)),
     Parent = self(),
     F = fun() ->

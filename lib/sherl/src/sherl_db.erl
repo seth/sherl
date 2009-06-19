@@ -4,7 +4,6 @@
 
 -include("../include/url.hrl").
 -include("counter.hrl").
--include_lib("stdlib/include/qlc.hrl").
 
 start([]) ->
     start([node()]);
@@ -48,9 +47,7 @@ get_code(Url) ->
 %% database.
 get_url(Code) ->
     F = fun() ->
-                Q = qlc:q([X || X <- mnesia:table(url), X#url.code =:= Code ]),
-                Recs = qlc:e(Q),
-                case Recs of
+                case mnesia:read({url, Code}) of
                     [] ->
                         undefined;
                     [Rec] ->
