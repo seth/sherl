@@ -43,7 +43,7 @@ end_per_suite(_Config) ->
 %% Description: Returns a list of all test cases in this test suite
 %%--------------------------------------------------------------------
 all() ->
-    [roundtrip1].
+    [roundtrip1, concurrent1].
 
 %%-------------------------------------------------------------------------
 %% Test cases starts here.
@@ -77,3 +77,45 @@ roundtrip1(_Config) ->
     Ans2 = sherl_db:get_code(Url2),
 
     ok.
+
+concurrent1() ->
+    [{userdata,[{doc,"concurrent code creation for same URLs"}]}].
+
+concurrent1(_Config) ->
+    NumClients = 5,
+    Seq = lists:map(fun erlang:integer_to_list/1, lists:seq(1, 10)),
+    Parent = self(),
+    F = fun() ->
+                Codes = lists:map(fun(N) ->
+                                          sherl_db:get_code("http://" ++ N)
+                                  end,
+                                  Seq),
+                Parent ! {self(), Codes}
+        end,
+    Pids = lists:map(fun(_X) -> spawn(F) end, lists:seq(1, NumClients)),
+    %% Results = gather(Pids),
+    Results = [ simple_gather(Pid) || Pid <- Pids ],
+    io:format("PIDS: ~p~n", [Pids]),
+    io:format("Results ~p~n", [Results]),
+    Codes = [ X#url.code || X <- hd(Results) ],
+    io:format("Codes ~p~n", [Codes]),
+    ExpectedCodes = lists:seq(3, 12),
+    lists:foreach(fun(L) ->
+                          ExpectedCodes = [X#url.code || X <- L]
+                  end,
+                  Results),
+    ok.
+
+simple_gather(Pid) ->
+    receive
+        {Pid, Val} ->
+            Val
+    end.
+
+gather([Pid|T]) ->
+    receive
+        {Pid, Val} ->
+            [Val|gather(T)]
+    end;
+gather([]) ->
+    [].
