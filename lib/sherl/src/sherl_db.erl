@@ -28,12 +28,10 @@ stop() ->
 %% in the system, the already assigned unique integer is returned.
 get_code(Url) ->
     F = fun() ->
-                Q = qlc:q([X || X <- mnesia:table(url), X#url.url =:= Url ]),
-                Rec = qlc:e(Q),
-                case Rec of
+                mnesia:lock({table, url}, write),
+                case mnesia:index_read(url, Url, #url.url) of
                     [] ->
-                        Code = next_int(),
-                        New = #url{url = Url, code = Code, created = now()},
+                        New = #url{url = Url, code = next_int(), created = now()},
                         mnesia:write(New),
                         New;
                     [Found] ->
