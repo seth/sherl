@@ -1,1 +1,0 @@
--record(counter, {id = 0, ver = 1}).

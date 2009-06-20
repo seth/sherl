@@ -3,7 +3,7 @@
 -export([get_code/1, get_url/1, start/1, stop/0]).
 
 -include("../include/url.hrl").
--include("counter.hrl").
+-record(counter, {id = 0, ver = 1}).
 
 start([]) ->
     start([node()]);
