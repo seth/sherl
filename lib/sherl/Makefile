@@ -12,21 +12,21 @@ vpath %.hrl src include
 
 ERL = erl -boot start_clean
 
-MODS = sherl_db base62
+MODS = sherl sherl_db base62 sherl_app sherl_sup
 BEAM = $(MODS:%=%.beam)
 APP = sherl
 TOP = $(realpath .)
 EBIN_DIRS = $(TOP)/ebin
 CT_DIR = $(TOP)/ct-results
 
-all: compile
-
-echo:
-	echo $(TOP)
+all: compile $(TOP)/ebin/$(APP).app
 
 compile: $(BEAM)
 
 $(MODS) : $(BEAM)
+
+$(TOP)/ebin/$(APP).app: src/$(APP).app
+	@cp -v $< $@
 
 test: $(MODS) $(CT_DIR)
 	run_test -pa $(EBIN_DIRS) -dir $(TOP) -logdir ct-results

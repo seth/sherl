@@ -22,7 +22,6 @@ rake -T
 #+END_SRC
 
 
-
 * Creating sherl_db
 sherl_db is the module that knows how to store and retrieve URL data
 and interfaces with the mnesia database system.
@@ -61,4 +60,7 @@ put_url/1 and get_url/1.
 Added common test target to erl_rake and have the task create a fresh
 mnesia db for each run.
 ** Coding integers, base 62
-
+* The sherl gen_server
+** Wrapping sherl_db into a gen_server
+Is it needed?
+** Coding integers as base 62.
