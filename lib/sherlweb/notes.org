@@ -1,0 +1,11 @@
+Edit priv/dispatch.conf
+
+Copy sherlweb_resource.erl to shorten_resource.erl and
+lookup_resource.erl  we'll fix up the contents later.
+
+Remove sherlweb_resource.erl
+
+Edit .app file and add the new erl files and remove what was deleted.
+
+Add sherl to applications in sherlweb.app
+

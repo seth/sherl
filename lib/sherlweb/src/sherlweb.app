@@ -6,7 +6,8 @@
     sherlweb_app,
     sherlweb_sup,
     sherlweb_deps,
-    sherlweb_resource
+    shorten_resource,
+    lookup_resource
   ]},
   {registered, []},
   {mod, {sherlweb_app, []}},

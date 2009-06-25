@@ -21,6 +21,8 @@ start() ->
     sherlweb_deps:ensure(),
     ensure_started(crypto),
     ensure_started(webmachine),
+    ensure_started(mnesia),
+    ensure_started(sherl),
     application:start(sherlweb).
 
 %% @spec stop() -> ok
