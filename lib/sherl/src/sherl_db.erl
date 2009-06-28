@@ -8,14 +8,28 @@
 start([]) ->
     start([node()]);
 start(Nodes) ->
-    mnesia:create_schema(Nodes),
-    mnesia:start(),
-    mnesia:create_table(url, [{disc_copies, Nodes},
-                              {attributes, record_info(fields, url)},
-                              {index, [url]}]),
-    mnesia:create_table(counter, [{disc_copies, Nodes},
-                                  {attributes, record_info(fields, counter)}]),
-    mnesia:wait_for_tables([url, counter], 20000).
+    case is_fresh_startup() of
+        true ->
+            case mnesia:system_info(is_running) of
+                yes ->
+                    error_logger:info_report("stopping mnesia"),
+                    mnesia:stop();
+                _ -> pass
+            end,
+            mnesia:create_schema(Nodes),
+            error_logger:info_report("mnesia schema created"),
+            error_logger:info_report("starting mnesia"),
+            mnesia:start(),
+            mnesia:create_table(url, [{disc_copies, Nodes},
+                                      {attributes, record_info(fields, url)},
+                                      {index, [url]}]),
+            mnesia:create_table(counter, [{disc_copies, Nodes},
+                                          {attributes,
+                                           record_info(fields, counter)}]),
+            error_logger:info_report("mnesia tables created");
+        {exists, Tables} ->
+            ok = mnesia:wait_for_tables(Tables, 20000)
+    end.
 
 stop() ->
     mnesia:stop().
@@ -61,3 +75,19 @@ get_url(Code) ->
 %% @doc This is the integer sequence used to uniquely identify URLs
 next_int() ->
     mnesia:dirty_update_counter(counter, id, 1).
+
+%% @spec is_fresh_startup() -> true | false
+%% @doc Returns true if mnesia has not been initialized with
+%% the sherl schema.
+%% Thanks to Dale Harvey for this function posted to
+%% the erlang questions mailing list.
+is_fresh_startup() ->
+    Node = node(),
+    case mnesia:system_info(tables) of
+        [schema] -> true;
+        Tbls ->
+            case mnesia:table_info(schema, cookie) of
+                {_, Node} -> {exists, Tbls};
+                _                 -> true
+            end
+    end.

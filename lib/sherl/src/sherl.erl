@@ -54,7 +54,9 @@ decode(Code) ->
 %% Description: Initiates the server
 %%--------------------------------------------------------------------
 init([]) ->
+    error_logger:info_report({"initializing sherl"}),
     sherl_db:start([]),
+    error_logger:info_report({"sherl_db started"}),
     {ok, #state{}}.
 
 %%--------------------------------------------------------------------

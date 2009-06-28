@@ -41,7 +41,7 @@ start_link() ->
 %%--------------------------------------------------------------------
 init([]) ->
     Sherl = {sherl_main, {sherl, start_link, []},
-              permanent, 2000, worker,[sherl]},
+              permanent, 2000, worker, [sherl]},
     {ok, {{one_for_one, 20, 60}, [Sherl]}}.
 
 %%====================================================================
