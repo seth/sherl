@@ -33,5 +33,11 @@ resource_exists(ReqData, State) ->
     {Status, LongUrl} = sherl:decode(wrq:disp_path(ReqData)),
     case Status of
         ok -> {false, ReqData, State#sherl{long_url = LongUrl}};
-        _ -> {false, ReqData, State}
+        _ ->
+            Msg = [<<"<html><title>unknown sherl</title>">>,
+                   <<"<body>unknown sherl: ">>,
+                   list_to_binary(wrq:disp_path(ReqData)),
+                   <<"</body></html>\n">>],
+            NotFoundData = wrq:set_resp_body(Msg, ReqData),
+            {false, NotFoundData, State}
     end.
