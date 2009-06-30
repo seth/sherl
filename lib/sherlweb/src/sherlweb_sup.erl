@@ -1,5 +1,5 @@
-%% @author author <author@example.com>
-%% @copyright YYYY author.
+%% @author Seth Falcon
+%% @copyright 2009 Seth Falcon.
 
 %% @doc Supervisor for the sherlweb application.
 

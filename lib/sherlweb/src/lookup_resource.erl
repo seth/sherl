@@ -1,4 +1,4 @@
-%% @author Seth Falcon <seth@userprimary.net>
+%% @author Seth Falcon
 %% @copyright 2009 Seth Falcon.
 %% @doc The sherl lookup resource expects sherl codes and returns
 %% either a 301 redirect or a 404, if the code was not found.

@@ -1,6 +1,7 @@
-%% @author author <author@example.com>
-%% @copyright YYYY author.
-%% @doc Example webmachine_resource.
+%% @author Seth Falcon
+%% @copyright 2009 Seth Falcon.
+%% @doc shorten a long URL and return a simple HTML
+%% page containing the new short URL.
 
 -module(shorten_resource).
 -export([init/1, to_html/2]).
