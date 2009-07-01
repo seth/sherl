@@ -1,4 +1,6 @@
 %% -*- mode: erlang -*-
+%% @author Seth Falcon <seth@userprimary.net>
+%% @copyright 2009 Seth Falcon.
 {application, sherl,
  [{description, "sherl URL shortening core service"},
   {vsn, "0.1"},

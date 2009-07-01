@@ -1,10 +1,5 @@
-%%%-------------------------------------------------------------------
-%%% File    : sherl_sup.erl
-%%% Author  : Seth Falcon <>
-%%% Description :
-%%%
-%%% Created : 20 Jun 2009 by Seth Falcon <>
-%%%-------------------------------------------------------------------
+%% @author Seth Falcon <seth@userprimary.net>
+%% @copyright 2009 Seth Falcon.
 -module(sherl_sup).
 
 -behaviour(supervisor).

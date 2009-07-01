@@ -1,3 +1,5 @@
+%% @author Seth Falcon <seth@userprimary.net>
+%% @copyright 2009 Seth Falcon.
 -module(base62).
 
 -export([encode/1, decode/1, digit_to_char/1, char_to_digit/1]).

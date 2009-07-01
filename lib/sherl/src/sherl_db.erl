@@ -1,3 +1,5 @@
+%% @author Seth Falcon <seth@userprimary.net>
+%% @copyright 2009 Seth Falcon.
 -module(sherl_db).
 
 -export([get_code/1, get_url/1, start/1, stop/0]).
