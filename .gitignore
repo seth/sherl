@@ -8,3 +8,4 @@ lib/sherlweb/ebin/*.app
 lib/sherlweb/priv/log
 Mnesia.nonode@nohost
 erl_crash.dump
+lib/sherlweb/deps/webmachine
