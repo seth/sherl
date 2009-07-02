@@ -5,9 +5,9 @@ Sherl is a URL shortening service.  For details see the following
 posts:
 
 * http://userprimary.net/user/2009/06/15/writing-a-url-shortening-service-in-erlang-part-1/
-* http://userprimary.net/user/2009/06/15/writing-a-url-shortening-service-in-erlang-part-2/
-* http://userprimary.net/user/2009/06/15/writing-a-url-shortening-service-in-erlang-part-3/
-* http://userprimary.net/user/2009/06/15/writing-a-url-shortening-service-in-erlang-part-4/
+* http://userprimary.net/user/2009/06/18/writing-a-url-shortening-service-in-erlang-part-2/
+* http://userprimary.net/user/2009/06/20/writing-a-url-shortening-service-in-erlang-part-3/
+* http://userprimary.net/user/2009/06/29/writing-a-url-shortening-service-in-erlang-part-4/
 
 Dependencies
 ------------
